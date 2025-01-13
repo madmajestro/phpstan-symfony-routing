@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace DaDaDev\Symfony;
 
-use Iterator;
 use PHPUnit\Framework\TestCase;
 
 final class DefaultUrlGeneratingRoutesMapTest extends TestCase
@@ -21,7 +20,7 @@ final class DefaultUrlGeneratingRoutesMapTest extends TestCase
     /**
      * @return \Iterator<mixed>
      */
-    public function hasRouteNameProvider(): Iterator
+    public function hasRouteNameProvider(): \Iterator
     {
         yield [
             'unknown',
