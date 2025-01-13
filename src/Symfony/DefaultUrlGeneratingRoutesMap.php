@@ -6,7 +6,6 @@ namespace DaDaDev\Symfony;
 
 use PhpParser\Node\Expr;
 use PHPStan\Analyser\Scope;
-use PHPStan\Type\TypeUtils;
 
 final class DefaultUrlGeneratingRoutesMap implements UrlGeneratingRoutesMap
 {
@@ -45,7 +44,7 @@ final class DefaultUrlGeneratingRoutesMap implements UrlGeneratingRoutesMap
 
     public static function getRouteNameFromNode(Expr $node, Scope $scope): ?string
     {
-        $strings = TypeUtils::getConstantStrings($scope->getType($node));
+        $strings = $scope->getType($node)->getConstantStrings();
 
         return \count($strings) === 1 ? $strings[0]->getValue() : null;
     }

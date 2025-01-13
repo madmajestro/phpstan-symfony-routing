@@ -12,7 +12,6 @@ use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\Rule;
 use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\ObjectType;
-use PHPStan\Type\TypeUtils;
 
 /**
  * @implements Rule<MethodCall>
@@ -89,7 +88,7 @@ final class UrlGeneratorInterfaceUnknownRouteRule implements Rule
             && $scope->getType($node->getArgs()[1]->value)->isArray()->yes()
         ) {
             $requiredParamsArrayType = $scope->getType($node->getArgs()[1]->value);
-            $requiredParamConstantStrings = TypeUtils::getConstantStrings($requiredParamsArrayType->getIterableKeyType());
+            $requiredParamConstantStrings = $requiredParamsArrayType->getIterableKeyType()->getConstantStrings();
 
             foreach ($routeRequirements as $name => $requirement) {
                 foreach ($requiredParamConstantStrings as $requiredParamConstantString) {
