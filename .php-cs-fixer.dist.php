@@ -12,7 +12,7 @@ return $config->setRules([
     'no_useless_return' => true,
     'array_syntax' => ['syntax' => 'short'],
     'concat_space' => ['spacing' => 'one'],
-    'function_typehint_space' => true,
+    'type_declaration_spaces' => true,
     'no_empty_statement' => true,
     'no_leading_namespace_whitespace' => true,
     'single_trait_insert_per_statement' => true,

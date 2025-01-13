@@ -4,18 +4,17 @@ declare(strict_types=1);
 
 namespace DaDaDev\Symfony;
 
-use function count;
 use PhpParser\Node\Expr;
 use PHPStan\Analyser\Scope;
 use PHPStan\Type\TypeUtils;
 
 final class DefaultUrlGeneratingRoutesMap implements UrlGeneratingRoutesMap
 {
-    /** @var \DaDaDev\Symfony\UrlGeneratingRoutesDefinition[] */
+    /** @var UrlGeneratingRoutesDefinition[] */
     private $routes;
 
     /**
-     * @param \DaDaDev\Symfony\UrlGeneratingRoutesDefinition[] $routes
+     * @param UrlGeneratingRoutesDefinition[] $routes
      */
     public function __construct(array $routes)
     {
@@ -48,6 +47,6 @@ final class DefaultUrlGeneratingRoutesMap implements UrlGeneratingRoutesMap
     {
         $strings = TypeUtils::getConstantStrings($scope->getType($node));
 
-        return count($strings) === 1 ? $strings[0]->getValue() : null;
+        return \count($strings) === 1 ? $strings[0]->getValue() : null;
     }
 }

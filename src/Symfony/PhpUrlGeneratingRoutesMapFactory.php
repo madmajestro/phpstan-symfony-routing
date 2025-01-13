@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace DaDaDev\Symfony;
 
-use function sprintf;
-
 final class PhpUrlGeneratingRoutesMapFactory implements UrlGeneratingRoutesMapFactory
 {
     /** @var string|null */
@@ -23,16 +21,16 @@ final class PhpUrlGeneratingRoutesMapFactory implements UrlGeneratingRoutesMapFa
         }
 
         if (file_exists($this->urlGeneratingRoutesFile) === false) {
-            throw new UrlGeneratingRoutesFileNotExistsException(sprintf('File %s containing route generator information does not exist.', $this->urlGeneratingRoutesFile));
+            throw new UrlGeneratingRoutesFileNotExistsException(\sprintf('File %s containing route generator information does not exist.', $this->urlGeneratingRoutesFile));
         }
 
         $urlGeneratingRoutes = require $this->urlGeneratingRoutesFile;
 
         if (!is_array($urlGeneratingRoutes)) {
-            throw new UrlGeneratingRoutesFileNotExistsException(sprintf('File %s containing route generator information cannot be parsed.', $this->urlGeneratingRoutesFile));
+            throw new UrlGeneratingRoutesFileNotExistsException(\sprintf('File %s containing route generator information cannot be parsed.', $this->urlGeneratingRoutesFile));
         }
 
-        /** @var \DaDaDev\Symfony\UrlGeneratingRoutesDefinition[] $routes */
+        /** @var UrlGeneratingRoutesDefinition[] $routes */
         $routes = [];
         foreach ($urlGeneratingRoutes as $routeName => $routeConfiguration) {
             if (!is_string($routeName)) {

@@ -21,7 +21,7 @@ class UrlGeneratingRoute implements UrlGeneratingRoutesDefinition
     public function __construct(
         string $name,
         string $controller,
-        array $urlParams
+        array $urlParams,
     ) {
         $this->name = $name;
         $this->controller = $controller;
