@@ -8,7 +8,9 @@ use DaDaDev\Symfony\UrlGeneratingRoutesMap;
 use PhpParser\Node;
 use PhpParser\Node\Expr\MethodCall;
 use PHPStan\Analyser\Scope;
+use PHPStan\Rules\IdentifierRuleError;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleErrorBuilder;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\TypeUtils;
 
@@ -33,7 +35,7 @@ final class UrlGeneratorInterfaceUnknownRouteRule implements Rule
     /**
      * @param MethodCall $node
      *
-     * @return (string|\PHPStan\Rules\RuleError)[] errors
+     * @return list<IdentifierRuleError> errors
      */
     public function processNode(Node $node, Scope $scope): array
     {
@@ -63,7 +65,11 @@ final class UrlGeneratorInterfaceUnknownRouteRule implements Rule
         }
 
         if ($this->urlGeneratingRoutesMap->hasRouteName($routeName) === false) {
-            return [sprintf('Route with name "%s" does not exist.', $routeName)];
+            return [
+                RuleErrorBuilder::message(sprintf('Route with name "%s" does not exist.', $routeName))
+                    ->identifier('dadadev.symfony.routing.1')
+                    ->build(),
+            ];
         }
 
         $routeRequirements = $this->urlGeneratingRoutesMap->getRouteRequirements($routeName);
@@ -71,7 +77,11 @@ final class UrlGeneratorInterfaceUnknownRouteRule implements Rule
             $routeRequirements !== []
             && count($node->getArgs()) < 2
         ) {
-            return [sprintf('Route with name "%s" has requires parameters "%s" to be given.', $routeName, implode(', ', array_keys($routeRequirements)))];
+            return [
+                RuleErrorBuilder::message(sprintf('Route with name "%s" has requires parameters "%s" to be given.', $routeName, implode(', ', array_keys($routeRequirements))))
+                    ->identifier('dadadev.symfony.routing.2')
+                    ->build(),
+            ];
         }
 
         if (
@@ -88,7 +98,11 @@ final class UrlGeneratorInterfaceUnknownRouteRule implements Rule
                     }
                 }
 
-                return [sprintf('Route with name "%s" is missing required param %s.', $routeName, $name)];
+                return [
+                    RuleErrorBuilder::message(sprintf('Route with name "%s" is missing required param %s.', $routeName, $name))
+                        ->identifier('dadadev.symfony.routing.3')
+                        ->build(),
+                ];
             }
         }
 
