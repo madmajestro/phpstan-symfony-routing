@@ -24,23 +24,16 @@ final class PhpUrlGeneratingRoutesMapFactory implements UrlGeneratingRoutesMapFa
             throw new UrlGeneratingRoutesFileNotExistsException(\sprintf('File %s containing route generator information does not exist.', $this->urlGeneratingRoutesFile));
         }
 
+        /** @var array<string, array<string, string>[]> $urlGeneratingRoutes */
         $urlGeneratingRoutes = require $this->urlGeneratingRoutesFile;
 
+        // @phpstan-ignore function.alreadyNarrowedType
         if (!is_array($urlGeneratingRoutes)) {
             throw new UrlGeneratingRoutesFileNotExistsException(\sprintf('File %s containing route generator information cannot be parsed.', $this->urlGeneratingRoutesFile));
         }
 
-        /** @var UrlGeneratingRoutesDefinition[] $routes */
         $routes = [];
         foreach ($urlGeneratingRoutes as $routeName => $routeConfiguration) {
-            if (!is_string($routeName)) {
-                continue;
-            }
-
-            if (!is_array($routeConfiguration) || !isset($routeConfiguration[1]['_controller'])) {
-                continue;
-            }
-
             $routes[] = new UrlGeneratingRoute(
                 $routeName,
                 $routeConfiguration[1]['_controller'],
